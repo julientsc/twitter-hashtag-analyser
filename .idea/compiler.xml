@@ -24,11 +24,13 @@
         <processorPath useClasspath="true" />
         <module name="basic-maven-webapp" />
         <module name="basic-maven-webapp-jersey" />
+        <module name="twitter-hashtag-analyser" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="basic-maven-webapp" target="1.5" />
       <module name="basic-maven-webapp-jersey" target="1.5" />
+      <module name="twitter-hashtag-analyser" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
