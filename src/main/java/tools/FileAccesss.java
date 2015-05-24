@@ -3,10 +3,7 @@ package tools;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 /**
  * Created by Julien on 24.05.15.
@@ -23,7 +20,12 @@ public class FileAccesss<T> {
 
     public void save(String path, T obj) {
         String content = this.gson.toJson(obj);
-        PrintWriter pw = new PrintWriter(path);
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         pw.write(content);
         pw.close();
     }
