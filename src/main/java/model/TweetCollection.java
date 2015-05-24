@@ -25,7 +25,7 @@ public class TweetCollection {
     }
 
     public static TweetCollection getInstance() throws Exception {
-        if(INSTANCE == null) {
+        if (INSTANCE == null) {
             INSTANCE = new TweetCollection();
         }
         return INSTANCE;
@@ -40,35 +40,36 @@ public class TweetCollection {
 
             myTweets.getData().put(tweetId, myTweet);
 
-            if(!myHashtags.getData().containsKey(hashtag)){
+            if (!myHashtags.getData().containsKey(hashtag)) {
                 myHashtags.getData().put(hashtag, new ArrayList<Long>());
             }
-            if(!myHashtags.getData().get(hashtag).contains(tweetId)) {
+            if (!myHashtags.getData().get(hashtag).contains(tweetId)) {
                 myHashtags.getData().get(hashtag).add(tweetId);
             }
 
             count++;
             System.out.println(count + "\t" + tweet.getId());
 
-            save();
+            if (count == SAVE_COUNT) {
+                save();
+            }
         }
     }
 
     public void save() {
-        if(count == SAVE_COUNT) {
-            System.out.println("Save Data");
-            try {
-                myTweets.save();
-            } catch (FileNotFoundException e) {
-                System.err.println(e.getMessage());
-            }
-            try {
-                myHashtags.save();
-            } catch (FileNotFoundException e) {
-                System.err.println(e.getMessage());
-            }
-            count = 0;
+
+        try {
+            myTweets.save();
+        } catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
         }
+        try {
+            myHashtags.save();
+        } catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
+        count = 0;
+
     }
 
 }
