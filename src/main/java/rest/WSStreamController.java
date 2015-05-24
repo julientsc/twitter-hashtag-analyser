@@ -26,7 +26,7 @@ public class WSStreamController {
         System.out.println("WS:Start");
         System.out.println(Config.getInstance());
         if (streamManager.startStream(Config.getInstance()))
-            return Response.status(200).build();
+            return Response.status(200).header("Access-Control-Allow-Origin", "*").build();
         return Response.status(404).build();
     }
 
@@ -40,7 +40,7 @@ public class WSStreamController {
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
-            return Response.status(200).build();
+            return Response.status(200).header("Access-Control-Allow-Origin", "*").build();
         }
         return Response.status(404).build();
     }
@@ -61,7 +61,7 @@ public class WSStreamController {
 
         streamManager.startStream(Config.getInstance());
 
-        return Response.status(200).build();
+        return Response.status(200).header("Access-Control-Allow-Origin", "*").build();
     }
 
     @GET
@@ -71,8 +71,8 @@ public class WSStreamController {
         System.out.println("WS:GetConfig");
         //Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String content = Config.getInstance().toString();
-        System.err.println(content);
-        return Response.status(200).entity(content).build();
+        System.out.println(content);
+        return Response.status(200).entity(content).header("Access-Control-Allow-Origin", "*").build();
     }
 
 
