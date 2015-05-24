@@ -36,7 +36,7 @@ public class StreamStatusListener implements StatusListener {
             for (HashtagEntity hashtag : status.getHashtagEntities()) {
                 String h = "#" + hashtag.getText().toLowerCase();
                 if (this.hashtags.contains(h)) {
-                    System.out.println("+" + status.getUser().getName() + " : " + status.getText().replaceAll("\n", " "));
+                    System.out.println("+" + status.getId() + " : " + h);
                     collection.addTweet(hashtag.getText().toLowerCase(), status);
                 }
             }

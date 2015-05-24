@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class Config {
 
-    public static final String path = "config.json";
+    public static final String path = "data/config.json";
 
     private static Config instance = null;
 
@@ -25,6 +25,7 @@ public class Config {
     public static Config getInstance() {
         if (instance == null) {
             try {
+                new File("data").mkdirs();
                 instance = load(path);
             } catch (IOException e) {
                 System.err.println(e.getMessage());
@@ -32,6 +33,11 @@ public class Config {
             }
         }
         return instance;
+    }
+
+    public static void setInstance(Config instance) {
+        Config.instance = instance;
+        save(path, instance);
     }
 
     private static Config load(String path) throws IOException {
@@ -42,11 +48,7 @@ public class Config {
         return obj;
     }
 
-    public HashMap<String, ArrayList<String>> getData() {
-        return data;
-    }
-
-    public void save(String path, Config obj) {
+    private static void save(String path, Config obj) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String content = gson.toJson(obj);
         PrintWriter pw = null;
@@ -59,6 +61,10 @@ public class Config {
             if (pw != null)
                 pw.close();
         }
+    }
+
+    public HashMap<String, ArrayList<String>> getData() {
+        return data;
     }
 
 

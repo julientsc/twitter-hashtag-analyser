@@ -8,23 +8,13 @@ import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class StreamManager {
 
     private static StreamManager instance = null;
     private StreamStatusListener listener ;
-
-    public static StreamManager getInstance() {
-        if(instance==null) {
-            instance = new StreamManager();
-        }
-        return instance;
-    }
-
     private TwitterStream twitterStream = null;
     private boolean isWorking = false;
-
     private StreamManager() {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
@@ -41,9 +31,16 @@ public class StreamManager {
 
     }
 
+    public static StreamManager getInstance() {
+        if (instance == null) {
+            instance = new StreamManager();
+        }
+        return instance;
+    }
+
     private static String [] extractHashtagFromConfig(Config config) {
         ArrayList<String> hashtags = new ArrayList<String>();
-        HashMap<String, List<String>> mainHashtags = config.getData();
+        HashMap<String, ArrayList<String>> mainHashtags = config.getData();
         for (String mainHashtag : mainHashtags.keySet()) {
             if(!hashtags.contains(mainHashtag)) {
                 hashtags.add(mainHashtag);
@@ -61,6 +58,11 @@ public class StreamManager {
         }
         return r;
     }
+
+    public boolean isWorking() {
+        return isWorking;
+    }
+
     public boolean startStream(Config config) {
         if(isWorking)
             return false;

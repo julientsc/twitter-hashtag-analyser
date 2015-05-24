@@ -2,15 +2,12 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import model.Config;
 import model.TweetCollection;
 import worker.StreamManager;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Julien on 23.05.15.
@@ -26,8 +23,9 @@ public class WSStreamController {
     public Response start() {
         System.out.println("WS:Start");
         System.out.println(Config.getInstance());
-        if (streamManager.startStream(Config.getInstance()))
+        if (streamManager.startStream(Config.getInstance())) {
             return Response.status(200).build();
+        }
         return Response.status(404).build();
     }
 
@@ -53,23 +51,23 @@ public class WSStreamController {
     public Response putConfig(String json) {
 
         System.out.println("WS:PutConfig");
-        System.out.println(json);
-        System.out.println(Config.getInstance().toString());
 
-        streamManager.stopStream();
+        boolean isEnabled = StreamManager.getInstance().isWorking();
+
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        HashMap<String, List<String>> c = null;
-        c = gson.fromJson(json, new TypeToken<HashMap<String, List<String>>>() {
-        }.getType());
-        //setInstance(c);
+        Config config = gson.fromJson(json, Config.class);
 
-
-
-
-        if (c == null)
+        if (config == null) {
             return Response.status(404).build();
+        }
 
-        streamManager.startStream(Config.getInstance());
+        if (isEnabled)
+            streamManager.stopStream();
+
+        Config.setInstance(config);
+
+        if (isEnabled)
+            streamManager.startStream(Config.getInstance());
 
         return Response.status(200).build();
     }
@@ -79,7 +77,10 @@ public class WSStreamController {
     @Produces("application/json")
     public Response getConfig() {
         System.out.println("WS:GetConfig");
-        String content = Config.getInstance().toString();
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        String content = gson.toJson(Config.getInstance());
         System.out.println(content);
         return Response.status(200).entity(content).build();
     }
