@@ -69,8 +69,10 @@ public class WSStreamController {
     @Produces("application/json")
     public Response getConfig() {
         System.out.println("WS:GetConfig");
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return Response.status(200).entity(gson.toJson(Config.getInstance())).build();
+        //Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String content = Config.getInstance().toString();
+        System.err.println(content);
+        return Response.status(200).entity(content).build();
     }
 
 

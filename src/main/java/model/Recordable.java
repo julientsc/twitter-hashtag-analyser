@@ -1,6 +1,8 @@
 package model;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import tools.FileAccesss;
 
 import java.io.FileNotFoundException;
@@ -42,5 +44,11 @@ public class Recordable<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(data);
     }
 }
