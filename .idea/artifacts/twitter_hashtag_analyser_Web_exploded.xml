@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="twitter-hashtag-analyser:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/twitter_hashtag_analyser_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="twitter-hashtag-analyser/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="twitter-hashtag-analyser" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

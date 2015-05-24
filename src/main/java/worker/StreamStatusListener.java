@@ -15,25 +15,21 @@ public class StreamStatusListener implements StatusListener {
             this.hashtags.add(hashtags[i]);
     }
 
-    @Override
     public void onDeletionNotice(StatusDeletionNotice arg0) {
-        // TODO Auto-generated method stub
+
 
     }
 
-    @Override
     public void onScrubGeo(long arg0, long arg1) {
-        // TODO Auto-generated method stub
+
 
     }
 
-    @Override
     public void onStallWarning(StallWarning arg0) {
-        // TODO Auto-generated method stub
+
 
     }
 
-    @Override
     public void onStatus(Status status) {
         try {
             TweetCollection collection = TweetCollection.getInstance();
@@ -49,12 +45,10 @@ public class StreamStatusListener implements StatusListener {
         }
     }
 
-    @Override
     public void onException(Exception e) {
 //		e.printStackTrace();
     }
 
-    @Override
     public void onTrackLimitationNotice(int arg0) {
 
     }
