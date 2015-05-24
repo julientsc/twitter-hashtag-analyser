@@ -42,6 +42,10 @@ public class Config {
         return obj;
     }
 
+    public HashMap<String, ArrayList<String>> getData() {
+        return data;
+    }
+
     public void save(String path, Config obj) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String content = gson.toJson(obj);
