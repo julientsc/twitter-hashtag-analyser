@@ -1,13 +1,9 @@
 package worker;
 
-import java.util.ArrayList;
+import model.TweetCollection;
+import twitter4j.*;
 
-import model.MyTweetCollection;
-import twitter4j.HashtagEntity;
-import twitter4j.StallWarning;
-import twitter4j.Status;
-import twitter4j.StatusDeletionNotice;
-import twitter4j.StatusListener;
+import java.util.ArrayList;
 
 public class StreamStatusListener implements StatusListener {
 
@@ -39,21 +35,18 @@ public class StreamStatusListener implements StatusListener {
 
     @Override
     public void onStatus(Status status) {
-
-        MyTweetCollection a = new MyTweetCollection();
-        a.addTweet("aa", status);
-
-        for(HashtagEntity hashtag : status.getHashtagEntities()) {
-            String h = "#" + hashtag.getText().toLowerCase();
-            if(this.hashtags.contains(h)) {
-                System.out.println("+" + status.getUser().getName() + " : " + status.getText().replaceAll("\n", " "));
-                return;
+        try {
+            TweetCollection collection = TweetCollection.getInstance();
+            for (HashtagEntity hashtag : status.getHashtagEntities()) {
+                String h = "#" + hashtag.getText().toLowerCase();
+                if (this.hashtags.contains(h)) {
+                    System.out.println("+" + status.getUser().getName() + " : " + status.getText().replaceAll("\n", " "));
+                    collection.addTweet(hashtag.getText().toLowerCase(), status);
+                }
             }
-            else {
-                System.out.println("-" + status.getUser().getName() + " : " + status.getText());
-            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
-
     }
 
     @Override

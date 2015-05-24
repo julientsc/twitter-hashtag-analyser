@@ -12,10 +12,8 @@ public class TweetCollection {
 
     public static final String PATH_TWEETS = "tweets.json";
     public static final String PATH_HASHTAGS = "hashtags.json";
-
-    private static TweetCollection INSTANCE = null;
-
     public static final long SAVE_COUNT = 500;
+    private static TweetCollection INSTANCE = null;
     private long count = 0;
 
     private Recordable<HashMap<Long, MyTweet>> myTweets = null;
@@ -37,6 +35,9 @@ public class TweetCollection {
         long tweetId = tweet.getId();
         if (!myTweets.getData().containsKey(tweetId)) {
             MyTweet myTweet = MyTweet.convert(tweet);
+            if (myTweet == null)
+                return;
+
             myTweets.getData().put(tweetId, myTweet);
 
             if(!myHashtags.getData().containsKey(hashtag)){

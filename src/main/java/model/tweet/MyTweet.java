@@ -1,39 +1,49 @@
 package model.tweet;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Generated;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import twitter4j.Status;
+
+import javax.annotation.Generated;
+import java.util.ArrayList;
+import java.util.List;
 
 @Generated("org.jsonschema2pojo")
 public class MyTweet {
 
+
 	@SerializedName("created_at")
 	@Expose
 	private String createdAt;
-
 	@Expose
 	private Entities entities;
-
 	@Expose
 	private List<Long> contributors = new ArrayList<Long>();
-
 	@Expose
 	private String text;
-
 	@SerializedName("retweet_count")
 	@Expose
 	private Long retweetCount;
-
 	@Expose
 	private Long id;
-
 	@Expose
 	private User user;
-
 	@Expose
 	private String source;
+
+    public static MyTweet convert(Status tweet) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String content = gson.toJson(tweet);
+        MyTweet myTweet = gson.fromJson(content, MyTweet.class);
+
+        if (myTweet == null) {
+            System.out.println(content);
+        }
+
+        return myTweet;
+    }
 
 	/**
 	 * 
@@ -170,5 +180,6 @@ public class MyTweet {
 	public void setSource(String source) {
 		this.source = source;
 	}
+
 
 }
