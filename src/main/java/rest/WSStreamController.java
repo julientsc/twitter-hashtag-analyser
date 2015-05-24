@@ -22,7 +22,7 @@ public class WSStreamController {
     @GET
     @Path("/start")
     public Response start() {
-        if(streamManager.startStream(Config.getInstance()))
+        if (streamManager.startStream(Config.getInstance()))
             return Response.status(200).build();
         return Response.status(404).build();
     }
@@ -30,27 +30,35 @@ public class WSStreamController {
     @GET
     @Path("/stop")
     public Response stop() {
-        if(streamManager.stopStream())
+        if (streamManager.stopStream())
             return Response.status(200).build();
         return Response.status(404).build();
     }
 
     @POST
-    @Path("/update")
+    @Path("/config")
     @Produces("application/json")
     @Consumes("application/json")
-    public Response stop(String json) {
+    public Response putConfig(String json) {
         streamManager.stopStream();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Config c = (Config) gson.fromJson(json, Config.CLASS);
         setInstance(c);
 
-        if(c==null)
+        if (c == null)
             return Response.status(404).build();
 
         streamManager.startStream(Config.getInstance());
 
         return Response.status(200).build();
+    }
+
+    @GET
+    @Path("/config")
+    @Produces("application/json")
+    public Response getConfig() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return Response.status(200).entity(gson.toJson(Config.getInstance())).build();
     }
 
 
