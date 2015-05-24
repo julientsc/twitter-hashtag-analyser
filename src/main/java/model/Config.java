@@ -10,17 +10,17 @@ import java.util.List;
 public class Config extends Recordable<HashMap<String, List<String>>> {
 
     public static final String PATH = "config.json";
-    public static final Class CLASS = new HashMap<String, ArrayList<String>>().getClass();
 
     private static Config INSTANCE = null;
 
-    private Config(String path, Class c) {
-        super(path, c);
+    private Config(String path) {
+        super(path, new HashMap<String, List<String>>());
     }
 
     public static Config getInstance() {
-        if(INSTANCE == null) {
-            INSTANCE = new Config(PATH, CLASS);
+        if (INSTANCE == null) {
+            INSTANCE = new Config(PATH);
+            INSTANCE.getData().put("gameofthrones", new ArrayList<String>());
         }
         return INSTANCE;
     }
@@ -28,4 +28,5 @@ public class Config extends Recordable<HashMap<String, List<String>>> {
     public static void setInstance(Config instance) {
         INSTANCE = instance;
     }
+
 }

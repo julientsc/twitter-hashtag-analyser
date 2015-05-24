@@ -20,8 +20,8 @@ public class TweetCollection {
     private Recordable<HashMap<String, List<Long>>> myHashtags = null;
 
     private TweetCollection() throws Exception {
-        this.myTweets = new Recordable<HashMap<Long, MyTweet>>(PATH_TWEETS, new HashMap<Long, MyTweet>().getClass());
-        this.myHashtags = new Recordable<HashMap<String, List<Long>>>(PATH_HASHTAGS, new HashMap<String, List<Long>>().getClass());
+        this.myTweets = new Recordable<HashMap<Long, MyTweet>>(PATH_TWEETS, new HashMap<Long, MyTweet>());
+        this.myHashtags = new Recordable<HashMap<String, List<Long>>>(PATH_HASHTAGS, new HashMap<String, List<Long>>());
     }
 
     public static TweetCollection getInstance() throws Exception {

@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import model.Config;
+import model.TweetCollection;
 import worker.StreamManager;
 
 import javax.ws.rs.*;
@@ -22,6 +23,8 @@ public class WSStreamController {
     @GET
     @Path("/start")
     public Response start() {
+        System.out.println("WS:Start");
+        System.out.println(Config.getInstance());
         if (streamManager.startStream(Config.getInstance()))
             return Response.status(200).build();
         return Response.status(404).build();
@@ -30,8 +33,15 @@ public class WSStreamController {
     @GET
     @Path("/stop")
     public Response stop() {
-        if (streamManager.stopStream())
+        System.out.println("WS:Stop");
+        if (streamManager.stopStream()) {
+            try {
+                TweetCollection.getInstance().save();
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
             return Response.status(200).build();
+        }
         return Response.status(404).build();
     }
 
@@ -40,9 +50,10 @@ public class WSStreamController {
     @Produces("application/json")
     @Consumes("application/json")
     public Response putConfig(String json) {
+        System.out.println("WS:PutConfig");
         streamManager.stopStream();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Config c = (Config) gson.fromJson(json, Config.CLASS);
+        Config c = gson.fromJson(json, Config.class);
         setInstance(c);
 
         if (c == null)
@@ -57,6 +68,7 @@ public class WSStreamController {
     @Path("/config")
     @Produces("application/json")
     public Response getConfig() {
+        System.out.println("WS:GetConfig");
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return Response.status(200).entity(gson.toJson(Config.getInstance())).build();
     }

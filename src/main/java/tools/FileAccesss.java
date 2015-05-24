@@ -19,6 +19,8 @@ public class FileAccesss<T> {
     }
 
     public void save(String path, T obj) {
+        File f = new File(path);
+        System.out.println("Save as : " + f.getAbsolutePath());
         String content = this.gson.toJson(obj);
         PrintWriter pw = null;
         try {
@@ -31,6 +33,8 @@ public class FileAccesss<T> {
     }
 
     public T load(String path) throws IOException {
+        File f = new File(path);
+        System.out.println("Load from : " + f.getAbsolutePath());
         BufferedReader br = new BufferedReader(new FileReader(path));
         T obj = (T) this.gson.fromJson(br, this.c);
         br.close();

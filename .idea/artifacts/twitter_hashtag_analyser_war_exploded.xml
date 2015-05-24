@@ -14,6 +14,7 @@
           <element id="library" level="project" name="Maven: com.sun.jersey:jersey-server:1.19" />
           <element id="library" level="project" name="Maven: org.twitter4j:twitter4j-core:4.0.3" />
           <element id="library" level="project" name="Maven: org.twitter4j:twitter4j-stream:4.0.3" />
+          <element id="library" level="project" name="Maven: org.twitter4j:twitter4j-async:4.0.3" />
         </element>
       </element>
       <element id="directory" name="META-INF">
