@@ -1,9 +1,5 @@
 package model;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,15 +14,18 @@ public class Config extends Recordable<HashMap<String, ArrayList<String>>> {
 
     private static Config INSTANCE = null;
 
-    private Config(String path, Class c) throws IllegalAccessException, InvocationTargetException, InstantiationException {
+    private Config(String path, Class c) {
         super(path, c);
     }
 
-    public static Config getInstance() throws Exception {
+    public static Config getInstance() {
         if(INSTANCE == null) {
             INSTANCE = new Config(PATH, CLASS);
         }
         return INSTANCE;
     }
 
+    public static void setInstance(Config instance) {
+        INSTANCE = instance;
+    }
 }
