@@ -1,19 +1,14 @@
 package worker;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
+import model.Config;
 import twitter4j.FilterQuery;
-import twitter4j.StallWarning;
-import twitter4j.Status;
-import twitter4j.StatusDeletionNotice;
-import twitter4j.StatusListener;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-import model.Config;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class StreamManager {
 
@@ -48,7 +43,7 @@ public class StreamManager {
 
     private static String [] extractHashtagFromConfig(Config config) {
         ArrayList<String> hashtags = new ArrayList<String>();
-        HashMap<String, List<String>> mainHashtags = config.getHashtags();
+        HashMap<String, List<String>> mainHashtags = config.getData();
         for (String mainHashtag : mainHashtags.keySet()) {
             if(!hashtags.contains(mainHashtag)) {
                 hashtags.add(mainHashtag);
@@ -66,9 +61,9 @@ public class StreamManager {
         }
         return r;
     }
-    public void startStream(Config config) {
+    public boolean startStream(Config config) {
         if(isWorking)
-            return;
+            return false;
         isWorking = true;
 
         System.out.println("Start Stream");
@@ -82,17 +77,15 @@ public class StreamManager {
         FilterQuery fq = new FilterQuery();
         fq.track(hashtags);
 
-
         twitterStream.filter(fq);
 
-
         System.out.println("=> Stream started !");
-
+        return false;
     }
 
-    public void stopStream() {
+    public boolean stopStream() {
         if(!isWorking)
-            return;
+            return false;
         isWorking = false;
 
         System.out.println("Stop Stream");
@@ -100,10 +93,11 @@ public class StreamManager {
         twitterStream.shutdown();
 
         System.out.println("=> Stream Stopped");
+        return true;
     }
 
     public void changeConfig(Config config) {
-        System.out.println("Change Config");
+        System.out.println("Change Recordable");
         stopStream();
         startStream(config);
     }
