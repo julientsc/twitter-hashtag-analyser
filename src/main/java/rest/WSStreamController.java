@@ -20,7 +20,7 @@ public class WSStreamController {
 
     @GET
     @Path("/start")
-    public Response start() {
+    synchronized public Response start() {
         System.out.println("WS:Start");
         System.out.println(Config.getInstance());
         if (streamManager.startStream(Config.getInstance())) {
@@ -31,7 +31,7 @@ public class WSStreamController {
 
     @GET
     @Path("/stop")
-    public Response stop() {
+    synchronized public Response stop() {
         System.out.println("WS:Stop");
         if (streamManager.stopStream()) {
             try {
@@ -48,7 +48,7 @@ public class WSStreamController {
     @Path("/config")
     @Produces("application/json")
     @Consumes("application/json")
-    public Response putConfig(String json) {
+    synchronized public Response putConfig(String json) {
 
         System.out.println("WS:PutConfig");
 
@@ -75,7 +75,7 @@ public class WSStreamController {
     @GET
     @Path("/config")
     @Produces("application/json")
-    public Response getConfig() {
+    synchronized public Response getConfig() {
         System.out.println("WS:GetConfig");
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

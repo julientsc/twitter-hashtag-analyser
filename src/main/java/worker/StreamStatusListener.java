@@ -1,8 +1,10 @@
 package worker;
 
+import model.Database;
 import model.TweetCollection;
 import twitter4j.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class StreamStatusListener implements StatusListener {
@@ -31,6 +33,13 @@ public class StreamStatusListener implements StatusListener {
     }
 
     public void onStatus(Status status) {
+
+        try {
+            Database.getInstance().addTweet(status);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         try {
             TweetCollection collection = TweetCollection.getInstance();
             for (HashtagEntity hashtag : status.getHashtagEntities()) {

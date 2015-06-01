@@ -10,6 +10,7 @@ import java.io.*;
  */
 public class FileAccesss<T> {
 
+
     private Gson gson = null;
     private Class c = null;
 

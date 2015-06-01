@@ -66,6 +66,7 @@ public class TweetCollection {
         return INSTANCE;
     }
 
+
     public void addTweet(String hashtag, Status tweet) throws FileNotFoundException {
         long tweetId = tweet.getId();
         if (!myTweets.containsKey(hashtag)) {
